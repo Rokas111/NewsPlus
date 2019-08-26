@@ -1,0 +1,5 @@
+name: NewsPlus
+main: me.Xocky.News.core.News
+version: 1.0
+author: Xocky
+commands:
