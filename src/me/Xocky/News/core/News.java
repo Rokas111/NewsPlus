@@ -4,6 +4,7 @@ import me.Xocky.News.core.cmd.CommandManager;
 import me.Xocky.News.core.config.ConfigManager;
 import me.Xocky.News.core.news.NewsManager;
 import me.Xocky.News.legacy.Version;
+import me.Xocky.News.metrics.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class News extends JavaPlugin {
@@ -16,6 +17,7 @@ public class News extends JavaPlugin {
         CC = new CommandManager(this);
         CM = new ConfigManager();
         NM = new NewsManager(this);
+        Metrics m = new Metrics(this);
     }
     public void onDisable() {}
 
