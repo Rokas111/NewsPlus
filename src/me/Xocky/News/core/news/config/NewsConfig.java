@@ -16,6 +16,7 @@ public class NewsConfig extends Config {
         }
     }
     public void setupKeys() {
+        getYaml().set("show-latest-news-on-join",true);
         getYaml().set("main_gui","news_update");
         getYaml().set("empty_news_slot_item","none_news");
         getYaml().set("news.update1.item","news_update");

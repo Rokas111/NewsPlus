@@ -1,6 +1,7 @@
 package me.Xocky.News.core.news;
 
 import me.Xocky.News.core.News;
+import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.NewsBookConfig;
@@ -119,6 +120,7 @@ public class NewsManager implements Listener {
     }
     private void registerCommands() {
         News.CC.registerCommand(new NewsCmd(),"news");
+        News.CC.registerCommand(new LatestNewsCmd(),"latestnews");
     }
 
     public NewsPage getNewsPage(Player p) {
@@ -169,7 +171,9 @@ public class NewsManager implements Listener {
     }
     @EventHandler
     public void join(PlayerJoinEvent e) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> openLatest(e.getPlayer()),10);
+        if (getNewsConfig().getYaml().getBoolean("show-latest-news-on-join")) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> openLatest(e.getPlayer()), 10);
+        }
     }
     public void openLatest(Player p) {
         if (!News.NM.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false).isEmpty()) {
