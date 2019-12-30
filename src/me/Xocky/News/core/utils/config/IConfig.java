@@ -5,4 +5,5 @@ public abstract interface IConfig {
     public abstract void setupKeys();
     public abstract Section getSection();
     public abstract void reload();
+    public abstract void save();
 }

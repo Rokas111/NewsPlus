@@ -44,6 +44,7 @@ public class Book {
         BookMeta meta = (BookMeta) item.getItemMeta();
         ComponentBuilder text = new ComponentBuilder("");
         for (String line : lines) {
+
             text.append(new Message(line).translateAllJSON().create());
             text.append("\n");
         }

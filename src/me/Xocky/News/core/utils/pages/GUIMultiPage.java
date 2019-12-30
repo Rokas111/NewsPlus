@@ -20,8 +20,9 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
         this.elements = elements;
     }
     public void nextPage() {
-        if (!(this.page <  (elements.size()>g.getSlotTags("elementslot").size()?(Integer.parseInt(Double.toString(elements.size() / g.getSlotTags("elementslot").size()).split("\\.")[0])  +1):1))) {
+        if (!(this.page <  (elements.size()>g.getSlotTags("newsslot").size()?(Integer.parseInt(Double.toString(elements.size() / g.getSlotTags("newsslot").size()).split("\\.")[0])  +1):1))) {
             p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("no-next-page")).create());
+            return;
         }
         page++;
         open();
@@ -29,6 +30,7 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
     public void previousPage() {
         if (this.page <= 1) {
             p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("no-previous-page")).create());
+            return;
         }
         page--;
         open();

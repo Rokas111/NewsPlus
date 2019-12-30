@@ -13,8 +13,7 @@ public class NewsCmd extends Command {
     }
     public void run(Player p, String[] args) {
         if (args == null || args.length ==0) {
-            News.nm.addNewsPage(p,new NewsPage(News.nm.getGUIFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("main_gui")), Lists.newArrayList(News.nm.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false)),p));
-            News.nm.getNewsPage(p).open();
+            new NewsPage(News.nm.getGUIFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("main_gui")), Lists.newArrayList(News.nm.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false)),p).open();
             return;
         }
         if (!News.nm.getNewsConfig().getYaml().contains("news."+args[0])) {

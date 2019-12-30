@@ -30,11 +30,7 @@ public class NewsMessagesConfig extends Config {
     }
     public void addDefault(String message, String name) {
         getYaml().set(name,message);
-        try {
-            getYaml().save(getFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        save();
     }
     public void setupKeys() {
         defaults.keySet().forEach(message -> addDefault(message,defaults.get(message)));

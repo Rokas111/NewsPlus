@@ -37,11 +37,7 @@ public class NewsJSONConfig extends Config {
         if (json.hasClick()) {
             getYaml().set(name+".click.value", json.getClick());
         }
-        try {
-            getYaml().save(getFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        save();
     }
     public void setupKeys() {
         defaults.keySet().forEach(json -> addDefault(json,defaults.get(json)));

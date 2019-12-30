@@ -21,7 +21,7 @@ public class ItemFactory {
             if (News.nm.getItemConfig().getYaml().contains(name+".name")) {item.setDisplayName(new Message(News.nm.getItemConfig().getYaml().getString(name+".name")).translate());}
             if (News.nm.getItemConfig().getYaml().contains(name+".lore")) {item.setLore(Arrays.asList(new Message(StringUtils.join(News.nm.getItemConfig().getYaml().getStringList(name+".lore")," /= ")).translate().split(" /= ")));}
             if (News.nm.getItemConfig().getYaml().contains(name+".command")) {item.setNBTString("command",News.nm.getItemConfig().getYaml().getString(name+".command"));}
-            if (News.nm.getItemConfig().getYaml().contains(name+".tag")) {item.setNBTString("tag",News.nm.getItemConfig().getYaml().getString(name+".tag"));}
+            if (News.nm.getItemConfig().getYaml().contains(name+".signature")) {item.setNBTString("signature",News.nm.getItemConfig().getYaml().getString(name+".signature"));}
             item.setNBTString("itemname",name);
             return item.build();
         }

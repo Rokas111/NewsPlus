@@ -1,5 +1,5 @@
 name: NewsPlus
 main: me.Xocky.News.core.News
-version: 1.2
+version: 1.2.2
 author: Xocky
 commands:

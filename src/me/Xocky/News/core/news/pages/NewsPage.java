@@ -30,5 +30,6 @@ public class NewsPage extends GUIMultiPage {
             }
         }
         getPlayer().openInventory(getGUI().getInventory());
+        News.nm.addNewsPage(getPlayer(),this);
     }
 }

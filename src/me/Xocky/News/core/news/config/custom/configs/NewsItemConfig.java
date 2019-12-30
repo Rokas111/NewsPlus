@@ -44,14 +44,10 @@ public class NewsItemConfig extends Config {
         if (b.getNBTString("command") != null) {
             getYaml().set(name + ".command",b.getNBTString("command"));
         }
-        if (b.getNBTString("tag") != null) {
-            getYaml().set(name + ".tag",b.getNBTString("tag"));
+        if (b.hasSignature()) {
+            getYaml().set(name + ".signature",b.getSignature());
         }
-        try {
-            getYaml().save(getFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        save();
     }
     public void setupKeys() {
         defaults.keySet().forEach(item -> addDefault(item,defaults.get(item)));

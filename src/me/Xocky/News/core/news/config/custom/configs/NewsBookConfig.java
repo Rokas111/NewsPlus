@@ -37,11 +37,7 @@ public class NewsBookConfig extends Config {
                 p++;
             }
         }
-        try {
-            getYaml().save(getFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        save();
     }
     public void setupKeys() {
         defaults.keySet().forEach(book -> addDefault(book,defaults.get(book)));

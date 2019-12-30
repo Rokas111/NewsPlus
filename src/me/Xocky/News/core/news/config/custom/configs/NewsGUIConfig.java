@@ -40,11 +40,7 @@ public class NewsGUIConfig extends Config {
                 getYaml().set(name+".slottags."+slot,g.getSlotTags().get(slot));
             }
         }
-        try {
-            getYaml().save(getFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        save();
     }
     public void setupKeys() {
         defaults.keySet().forEach(gui -> addDefault(gui,defaults.get(gui)));

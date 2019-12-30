@@ -131,4 +131,7 @@ public class BItem {
         setLore(lore);
         return this;
     }
+    public boolean hasSignature() {
+        return hasNBTString("signature");
+    }
 }

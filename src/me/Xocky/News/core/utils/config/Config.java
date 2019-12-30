@@ -41,4 +41,11 @@ public abstract class Config implements IConfig {
     public void reload() {
         this.yaml = YamlConfiguration.loadConfiguration(getFile());
     }
+    public void save() {
+        try {
+            getYaml().save(getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

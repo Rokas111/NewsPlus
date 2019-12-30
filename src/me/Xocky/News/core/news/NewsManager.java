@@ -8,12 +8,11 @@ import me.Xocky.News.core.news.config.custom.configs.*;
 import me.Xocky.News.core.news.config.custom.configs.defaults.*;
 import me.Xocky.News.core.news.config.custom.factory.book.BookFactory;
 import me.Xocky.News.core.news.config.custom.factory.message.MessageFactory;
-import me.Xocky.News.core.utils.custom.gui.GUI;
+import me.Xocky.News.core.news.config.data.ConfigPlayerList;
 import me.Xocky.News.core.news.config.custom.factory.gui.GUIFactory;
 import me.Xocky.News.core.utils.custom.item.BItem;
 import me.Xocky.News.core.news.config.custom.factory.item.ItemFactory;
 import me.Xocky.News.core.news.config.custom.factory.json.JSONFactory;
-import me.Xocky.News.core.utils.custom.json.UncodedJSON;
 import me.Xocky.News.core.news.pages.NewsPage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,7 +29,9 @@ import java.util.HashMap;
 public class NewsManager implements Listener {
     private Plugin pl;
     private NewsConfig nc;
-    private HashMap<Player, NewsPage> newspages;
+    private ConfigPlayerList configList;
+    private PlayerList playerList;
+    private HashMap<Player, NewsPage> newsPages;
     private NewsBookConfig bookConfig;
     private NewsItemConfig itemConfig;
     private NewsGUIConfig guiConfig;
@@ -43,7 +44,7 @@ public class NewsManager implements Listener {
     private MessageFactory messageFactory;
     public NewsManager(Plugin pl) {
         this.pl = pl;
-        this.newspages = new HashMap<>();
+        this.newsPages = new HashMap<>();
         this.guiFactory = new GUIFactory();
         this.itemFactory = new ItemFactory();
         this.jsonFactory = new JSONFactory();
@@ -54,6 +55,9 @@ public class NewsManager implements Listener {
         registerConfigs();
         registerCommands();
         setupDefaults();
+        if (nc.getLatestNewsOneTimeOnly()) {
+            registerPlayerList();
+        }
         pl.getServer().getPluginManager().registerEvents(this,pl);
     }
     private void registerConfigs() {
@@ -69,6 +73,14 @@ public class NewsManager implements Listener {
         guiConfig = (NewsGUIConfig) News.um.getConfigManager().getYaml("Guis");
         News.um.getConfigManager().registerConfig(new NewsMessagesConfig());
         messageConfig = (NewsMessagesConfig) News.um.getConfigManager().getYaml("Messages");
+    }
+    private void registerPlayerListConfig() {
+        News.um.getConfigManager().registerConfig(new ConfigPlayerList());
+        configList = (ConfigPlayerList) News.um.getConfigManager().getYaml("DataPlayerList");
+    }
+    private void registerPlayerList() {
+        registerPlayerListConfig();
+        playerList = new PlayerList(configList);
     }
     private void setupDefaults() {
         setupBookDefaults();
@@ -126,7 +138,7 @@ public class NewsManager implements Listener {
     }
 
     public NewsPage getNewsPage(Player p) {
-        return newspages.get(p);
+        return newsPages.get(p);
     }
     public GUIFactory getGUIFactory() {
         return this.guiFactory;
@@ -144,24 +156,24 @@ public class NewsManager implements Listener {
         return this.messageFactory;
     }
     public void addNewsPage(Player p, NewsPage page) {
-        newspages.put(p,page);
+        newsPages.put(p,page);
     }
     @EventHandler
     public void click(InventoryClickEvent e) {
-        if (newspages.containsKey(e.getWhoClicked())) {
+        if (newsPages.containsKey(e.getWhoClicked())) {
             e.setCancelled(true);
             if ((e.getCurrentItem()!= null&& e.getCurrentItem().getType() != Material.AIR)) {
                 BItem item = new BItem(e.getCurrentItem());
                 Player p = (Player) e.getWhoClicked();
                 if (item.getNBTString("newsitem") != null) {
                     p.closeInventory();
-                    getBookFactory().manufacture(getNewsConfig().getYaml().getString("news." + item.getNBTString("newsitem") + ".book")).openBook(p);
+                    getBookFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".book")).openBook(p);
                     return;
                 }
-                if (item.getNBTString("signature") != null) {
+                if (item.hasSignature()) {
                     if (item.getNBTString("signature").equals("nextpage")) {
                         getNewsPage(p).nextPage();
-                    } else if (item.getNBTString("signature").equals("previouspage")) {
+                    } else if (item.getNBTString("signature").equals("backpage")) {
                         getNewsPage(p).previousPage();
                     }
                 }
@@ -170,20 +182,21 @@ public class NewsManager implements Listener {
     }
     @EventHandler
     public void close(InventoryCloseEvent e) {
-        if (newspages.containsKey(e.getPlayer())) {
-            newspages.remove(e.getPlayer());
+        if (newsPages.containsKey(e.getPlayer())) {
+            newsPages.remove(e.getPlayer());
         }
     }
     @EventHandler
     public void join(PlayerJoinEvent e) {
-        if (getNewsConfig().getYaml().getBoolean("show-latest-news-on-join")) {
+        if (nc.getLatestNewsOnJoin() && (!nc.getLatestNewsOneTimeOnly() || !playerList.playerExists(e.getPlayer().getUniqueId()))) {
+            if (nc.getLatestNewsOneTimeOnly()) {playerList.addPlayer(e.getPlayer().getUniqueId());}
             Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> openLatest(e.getPlayer()), 10);
         }
     }
     public void openLatest(Player p) {
-        if (!getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false).isEmpty()) {
-            String newest = (String) getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false).toArray()[0];
-            getBookFactory().manufacture(getNewsConfig().getYaml().getString("news."+newest+".book")).openBook(p);
+        if (!nc.getYaml().getConfigurationSection("news").getKeys(false).isEmpty()) {
+            String newest = (String) nc.getYaml().getConfigurationSection("news").getKeys(false).toArray()[0];
+            getBookFactory().manufacture(nc.getYaml().getString("news."+newest+".book")).openBook(p);
         }
     }
 }

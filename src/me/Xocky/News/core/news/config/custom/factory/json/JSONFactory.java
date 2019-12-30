@@ -5,7 +5,6 @@ import me.Xocky.News.core.utils.custom.message.Message;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class JSONFactory {
     public JSONFactory() {
