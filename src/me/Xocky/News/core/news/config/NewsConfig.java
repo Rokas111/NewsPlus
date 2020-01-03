@@ -15,6 +15,7 @@ public class NewsConfig extends Config {
     public void setupKeys() {
         getYaml().set("show-latest-news-on-join", true);
         getYaml().set("show-latest-news-one-time-only", true);
+        getYaml().set("latest-news-one-time-only-use-mysql", false);
         getYaml().set("main_gui", "news_update");
         getYaml().set("empty_news_slot_item", "empty_slot");
         getYaml().set("news.update1.item", "news_update");
@@ -24,14 +25,21 @@ public class NewsConfig extends Config {
         getYaml().set("no-such-news-page", "error_no_such_news_page");
         getYaml().set("no-previous-page", "no_previous_page");
         getYaml().set("no-next-page", "no_next_page");
+        getYaml().set("successful-config-reload", "successful_config_reload_message");
+        getYaml().set("successful-config-reload", "successful_config_reload_message");
+        getYaml().set("insufficient-permission-command", "insufficient_permission_command");
+        getYaml().set("insufficient-permission-sub-command", "insufficient_permission_subcommand");
         save();
     }
 
 
     public boolean getLatestNewsOnJoin() {
-        return getYaml().getBoolean("show-latest-news-on-join");
+        return getBool("show-latest-news-on-join");
     }
     public boolean getLatestNewsOneTimeOnly() {
-        return getYaml().getBoolean("show-latest-news-one-time-only");
+        return getBool("show-latest-news-one-time-only");
+    }
+    public boolean getLatestNewsOneTimeOnlyUseMySQL() {
+        return getBool("latest-news-one-time-only-use-mysql");
     }
 }

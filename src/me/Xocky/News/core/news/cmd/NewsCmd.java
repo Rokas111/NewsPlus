@@ -4,12 +4,15 @@ import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.cmd.Command;
 import me.Xocky.News.core.news.pages.NewsPage;
+import me.Xocky.News.core.utils.cmd.subcmd.ISubCommand;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class NewsCmd extends Command {
 
-    public NewsCmd() {
-        super( "News+.news","news");
+    public NewsCmd(List<ISubCommand> subCommands) {
+        super( "News+.news","news",subCommands);
     }
     public void run(Player p, String[] args) {
         if (args == null || args.length ==0) {

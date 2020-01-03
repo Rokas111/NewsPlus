@@ -1,7 +1,6 @@
 package me.Xocky.News.core.config;
 
 import me.Xocky.News.core.News;
-import me.Xocky.News.core.config.cmds.ConfigReload;
 import me.Xocky.News.core.utils.config.Config;
 import org.bukkit.plugin.Plugin;
 
@@ -18,11 +17,7 @@ public class ConfigManager {
         configs = new ArrayList<>();
     }
     public void initialize() {
-        registerCommands();
         setupDir();
-    }
-    private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new ConfigReload(),"configreload");
     }
     public void setupDir() {
         File file =new File("plugins//" + News.PLUGIN_FOLDER);

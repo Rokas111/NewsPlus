@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/../bungeecord/Hub/plugins</output-path>
     <root id="archive" name="News+.jar">
       <element id="module-output" name="News+" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../downloads/HikariCP-3.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../downloads/slf4j-api-1.7.25.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

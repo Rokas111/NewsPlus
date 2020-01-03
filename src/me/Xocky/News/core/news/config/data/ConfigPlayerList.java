@@ -4,9 +4,7 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.config.Config;
 import me.Xocky.News.core.utils.config.Section;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ConfigPlayerList extends Config {
     public ConfigPlayerList() {
@@ -18,33 +16,38 @@ public class ConfigPlayerList extends Config {
     public void setupKeys() {
     }
     public void addPlayer(UUID id) {
-        List<String> players = getPlayerList();
-        players.add(id.toString());
-        getYaml().set("players",players);
-        save();
+        addStringToList("players",id.toString());
     }
     public void removePlayer(UUID id) {
-        List<String> players = getPlayerList();
-        players.remove(id.toString());
-        getYaml().set("players",players);
-        save();
+        removeStringToList("players",id.toString());
     }
     public boolean playerExists(UUID id) {
-        return getPlayerList().contains(id.toString());
-    }
-    public List<UUID> getPlayers() {
-        List<UUID> players = new ArrayList<>();
-        getPlayerList().forEach(player -> players.add(UUID.fromString(player)));
-        return players;
+        return getPlayers().contains(id);
     }
     public void clearPlayers() {
         getYaml().set("players",null);
         save();
     }
-    public boolean isEmpty() {
-        return !getYaml().contains("players") || getPlayerList().isEmpty();
+    public void setPlayers(List<UUID> players) {
+        List<String> newlist = new ArrayList<>();
+        players.forEach(player -> newlist.add(player.toString()));
+        getYaml().set("players",newlist);
+        save();
     }
-    private List<String> getPlayerList() {
-        return getYaml().getStringList("players");
+    public boolean isEmpty() {
+        return !getYaml().contains("players") || getPlayers().isEmpty();
+    }
+    public List<UUID> getPlayers() {
+        List<UUID> players = new ArrayList<>();
+        getStringList("players").forEach(player -> players.add(UUID.fromString(player)));
+        return players;
+    }
+    public void save(List<UUID> players) {
+        List<UUID> old = getPlayers();
+        Collections.sort(old);
+        Collections.sort(players);
+        if (!Objects.equals(old,players)) {
+            setPlayers(players);
+        }
     }
 }

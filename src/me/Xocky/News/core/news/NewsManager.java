@@ -1,8 +1,10 @@
 package me.Xocky.News.core.news;
 
+import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
+import me.Xocky.News.core.news.cmd.subcmds.Reload;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.configs.*;
 import me.Xocky.News.core.news.config.custom.configs.defaults.*;
@@ -10,11 +12,13 @@ import me.Xocky.News.core.news.config.custom.factory.book.BookFactory;
 import me.Xocky.News.core.news.config.custom.factory.message.MessageFactory;
 import me.Xocky.News.core.news.config.data.ConfigPlayerList;
 import me.Xocky.News.core.news.config.custom.factory.gui.GUIFactory;
+import me.Xocky.News.core.news.data.PlayerList;
 import me.Xocky.News.core.utils.custom.item.BItem;
 import me.Xocky.News.core.news.config.custom.factory.item.ItemFactory;
 import me.Xocky.News.core.news.config.custom.factory.json.JSONFactory;
 import me.Xocky.News.core.news.pages.NewsPage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,7 +59,7 @@ public class NewsManager implements Listener {
         registerConfigs();
         registerCommands();
         setupDefaults();
-        if (nc.getLatestNewsOneTimeOnly()) {
+        if (nc.getLatestNewsOneTimeOnly() && nc.getLatestNewsOnJoin()) {
             registerPlayerList();
         }
         pl.getServer().getPluginManager().registerEvents(this,pl);
@@ -80,7 +84,20 @@ public class NewsManager implements Listener {
     }
     private void registerPlayerList() {
         registerPlayerListConfig();
-        playerList = new PlayerList(configList);
+        if (nc.getLatestNewsOneTimeOnlyUseMySQL()) {
+            if (!News.mySQL.isConnected()) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED +"Couldn't connect to MySQL");
+                return;
+            }
+            playerList = new PlayerList(pl);
+            playerList.load();
+            return;
+        }
+        playerList = new PlayerList(pl,configList);
+        playerList.load();
+    }
+    public void savePlayerList() {
+        playerList.save();
     }
     private void setupDefaults() {
         setupBookDefaults();
@@ -133,7 +150,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(),"news");
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload())),"news");
         News.um.getCommandManager().registerCommand(new LatestNewsCmd(),"latestnews");
     }
 
@@ -167,7 +184,15 @@ public class NewsManager implements Listener {
                 Player p = (Player) e.getWhoClicked();
                 if (item.getNBTString("newsitem") != null) {
                     p.closeInventory();
-                    getBookFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".book")).openBook(p);
+                    if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".book")) {
+                        getBookFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".book")).openBook(p);
+                        return;
+                    }
+                    if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".gui")) {
+                        NewsPage page = newsPages.get(p);
+                        p.openInventory(getGUIFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".gui")).getInventory());
+                        addNewsPage(p,page);
+                    }
                     return;
                 }
                 if (item.hasSignature()) {
@@ -188,8 +213,8 @@ public class NewsManager implements Listener {
     }
     @EventHandler
     public void join(PlayerJoinEvent e) {
-        if (nc.getLatestNewsOnJoin() && (!nc.getLatestNewsOneTimeOnly() || !playerList.playerExists(e.getPlayer().getUniqueId()))) {
-            if (nc.getLatestNewsOneTimeOnly()) {playerList.addPlayer(e.getPlayer().getUniqueId());}
+        if (nc.getLatestNewsOnJoin() && (!nc.getLatestNewsOneTimeOnly() || playerList == null ||!playerList.playerExists(e.getPlayer().getUniqueId()))) {
+            if (nc.getLatestNewsOneTimeOnly() && playerList != null) {playerList.addPlayer(e.getPlayer().getUniqueId());}
             Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> openLatest(e.getPlayer()), 10);
         }
     }
