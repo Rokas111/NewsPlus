@@ -26,7 +26,8 @@ public class NewsConfig extends Config {
         getYaml().set("no-previous-page", "no_previous_page");
         getYaml().set("no-next-page", "no_next_page");
         getYaml().set("successful-config-reload", "successful_config_reload_message");
-        getYaml().set("successful-config-reload", "successful_config_reload_message");
+        getYaml().set("successful-clear-players", "successful_clear_players_message");
+        getYaml().set("error-player-list-disabled", "error_player_list_disabled_message");
         getYaml().set("insufficient-permission-command", "insufficient_permission_command");
         getYaml().set("insufficient-permission-sub-command", "insufficient_permission_subcommand");
         save();

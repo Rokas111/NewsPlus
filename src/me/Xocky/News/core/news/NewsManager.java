@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
+import me.Xocky.News.core.news.cmd.subcmds.ClearPlayers;
 import me.Xocky.News.core.news.cmd.subcmds.Reload;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.configs.*;
@@ -96,8 +97,8 @@ public class NewsManager implements Listener {
         playerList = new PlayerList(pl,configList);
         playerList.load();
     }
-    public void savePlayerList() {
-        playerList.save();
+    public PlayerList getPlayerList() {
+        return this.playerList;
     }
     private void setupDefaults() {
         setupBookDefaults();
@@ -150,7 +151,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload())),"news");
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers())),"news");
         News.um.getCommandManager().registerCommand(new LatestNewsCmd(),"latestnews");
     }
 

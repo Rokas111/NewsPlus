@@ -25,7 +25,7 @@ public class News extends JavaPlugin {
     }
     public void onDisable() {
         if (nm.getNewsConfig().getLatestNewsOneTimeOnly() && nm.getNewsConfig().getLatestNewsOnJoin()) {
-            nm.savePlayerList();
+            nm.getPlayerList().save();
         }
     }
 

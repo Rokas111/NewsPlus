@@ -21,23 +21,23 @@ public class PlayerListRepository {
         this.pl = pl;
     }
     public void setup() {
-                Connection connection = null;
+        Connection connection = null;
+        try {
+            connection = News.mySQL.getHikari().getConnection();
+            PreparedStatement rewards = connection.prepareStatement(CREATE);
+            rewards.execute();
+            rewards.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
                 try {
-                    connection = News.mySQL.getHikari().getConnection();
-                    PreparedStatement rewards = connection.prepareStatement(CREATE);
-                    rewards.execute();
-                    rewards.close();
+                    connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
-                } finally {
-                    if (connection != null) {
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
+            }
+        }
     }
     public void addPlayer(UUID id) {
         Connection connection = null;
@@ -79,51 +79,50 @@ public class PlayerListRepository {
         }
     }
     public List<UUID> getPlayers() {
-                Connection connection = null;
-                ResultSet set = null;
-                PreparedStatement ps = null;
-                try {
-                    connection = News.mySQL.getHikari().getConnection();
-                    ps = connection.prepareStatement(GET_PLAYERS);
-                    set = ps.executeQuery();
-                    List<UUID> players = new ArrayList<>();
-                    while (set.next()) {
-                        players.add(UUID.fromString(set.getString("uuid")));
-                    }
-                    return players;
-                } catch (SQLException e) {
-                    return new ArrayList<>();
-                } finally {
-                    try {
-                        if (ps != null) {
-                            ps.close();
-                        }
-                        if (set != null) {
-                            set.close();
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    if (connection != null) {
-                        try {
-                            connection.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        Connection connection = null;
+        ResultSet set = null;
+        PreparedStatement ps = null;
+        try {
+            connection = News.mySQL.getHikari().getConnection();
+            ps = connection.prepareStatement(GET_PLAYERS);
+            set = ps.executeQuery();
+            List<UUID> players = new ArrayList<>();
+            while (set.next()) {
+                players.add(UUID.fromString(set.getString("uuid")));
+            }
+            return players;
+        } catch (SQLException e) {
+            return new ArrayList<>();
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
                 }
-
+                if (set != null) {
+                    set.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public void setPlayers(List<UUID> players) {
         cleanPlayers();
         players.forEach(this::addPlayer);
     }
     public void save(List<UUID> players) {
-                List<UUID> old = getPlayers();
-                Collections.sort(old);
-                Collections.sort(players);
-                if (!Objects.equals(old,players)) {
-                    setPlayers(players);
-                }
+        List<UUID> old = getPlayers();
+        Collections.sort(old);
+        Collections.sort(players);
+        if (!Objects.equals(old,players)) {
+            setPlayers(players);
+        }
     }
 }
