@@ -10,6 +10,6 @@ public class Reload extends SubCommand {
     }
     public void run(Player p, String[] args) {
         News.um.getConfigManager().reloadAllConfigs();
-        p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("successful-config-reload")).create());
+        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-config-reload").create());
     }
 }

@@ -11,9 +11,9 @@ public class ClearPlayers extends SubCommand {
     public void run(Player p, String[] args) {
         if (News.nm.getNewsConfig().getLatestNewsOneTimeOnly() && News.nm.getNewsConfig().getLatestNewsOnJoin()) {
             News.nm.getPlayerList().clearPlayers();
-            p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("successful-clear-players")).create());
+            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-clear-players").create());
             return;
         }
-        p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("error-player-list-disabled")).create());
+        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("error-player-list-disabled").create());
     }
 }

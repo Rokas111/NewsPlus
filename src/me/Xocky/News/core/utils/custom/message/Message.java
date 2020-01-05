@@ -1,6 +1,7 @@
 package me.Xocky.News.core.utils.custom.message;
 
 import me.Xocky.News.core.News;
+import me.Xocky.News.core.utils.legacy.Version;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;

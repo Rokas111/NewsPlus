@@ -16,13 +16,13 @@ public class NewsCmd extends Command {
     }
     public void run(Player p, String[] args) {
         if (args == null || args.length ==0) {
-            new NewsPage(News.nm.getGUIFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("main_gui")), Lists.newArrayList(News.nm.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false)),p).open();
+            new NewsPage(News.nm.getNewsConfig().getGUI("main_gui"), Lists.newArrayList(News.nm.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false)),p).open();
             return;
         }
         if (!News.nm.getNewsConfig().getYaml().contains("news."+args[0])) {
-            p.spigot().sendMessage(News.nm.getMessageFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("no-such-news-page")).create());
+            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-such-news-page").create());
             return;
         }
-        News.nm.getBookFactory().manufacture(News.nm.getNewsConfig().getYaml().getString("news." +args[0])).openBook(p);
+        News.nm.getNewsConfig().getBook("news." +args[0]).openBook(p);
     }
 }

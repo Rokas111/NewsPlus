@@ -6,6 +6,7 @@ import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
 import me.Xocky.News.core.news.cmd.subcmds.ClearPlayers;
 import me.Xocky.News.core.news.cmd.subcmds.Reload;
+import me.Xocky.News.core.news.cmd.subcmds.Reset;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.configs.*;
 import me.Xocky.News.core.news.config.custom.configs.defaults.*;
@@ -151,7 +152,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers())),"news");
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset())),"news");
         News.um.getCommandManager().registerCommand(new LatestNewsCmd(),"latestnews");
     }
 
@@ -186,12 +187,12 @@ public class NewsManager implements Listener {
                 if (item.getNBTString("newsitem") != null) {
                     p.closeInventory();
                     if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".book")) {
-                        getBookFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".book")).openBook(p);
+                        nc.getBook("news." + item.getNBTString("newsitem") + ".book").openBook(p);
                         return;
                     }
                     if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".gui")) {
                         NewsPage page = newsPages.get(p);
-                        p.openInventory(getGUIFactory().manufacture(nc.getYaml().getString("news." + item.getNBTString("newsitem") + ".gui")).getInventory());
+                        p.openInventory(nc.getGUI("news." + item.getNBTString("newsitem") + ".gui").getInventory());
                         addNewsPage(p,page);
                     }
                     return;
@@ -222,7 +223,7 @@ public class NewsManager implements Listener {
     public void openLatest(Player p) {
         if (!nc.getYaml().getConfigurationSection("news").getKeys(false).isEmpty()) {
             String newest = (String) nc.getYaml().getConfigurationSection("news").getKeys(false).toArray()[0];
-            getBookFactory().manufacture(nc.getYaml().getString("news."+newest+".book")).openBook(p);
+            nc.getBook("news."+newest+".book").openBook(p);
         }
     }
 }

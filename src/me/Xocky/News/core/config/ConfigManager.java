@@ -34,4 +34,7 @@ public class ConfigManager {
     public void reloadAllConfigs() {
         configs.forEach(Config::reload);
     }
+    public void resetAllConfigs() {
+        configs.forEach(Config::reset);
+    }
 }
