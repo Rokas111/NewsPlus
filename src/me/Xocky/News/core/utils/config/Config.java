@@ -4,7 +4,9 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.custom.book.Book;
 import me.Xocky.News.core.utils.custom.gui.GUI;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -85,8 +87,8 @@ public abstract class Config implements IConfig {
         getYaml().set(key,list);
         save();
     }
-    public Book getBook(String name) {
-        return getYaml().contains(name)? News.nm.getBookFactory().manufacture(getYaml().getString(name)) :null;
+    public Book getBook(String name, Player p) {
+        return getYaml().contains(name)? News.nm.getBookFactory().manufacture(getYaml().getString(name),p) :null;
     }
     public GUI getGUI(String name) {
         return getYaml().contains(name)?News.nm.getGUIFactory().manufacture(getYaml().getString(name)) :null;
@@ -97,7 +99,7 @@ public abstract class Config implements IConfig {
     public ComponentBuilder getJSON(String name) {
         return getYaml().contains(name)?News.nm.getJSONFactory().manufacture(getYaml().getString(name)) :null;
     }
-    public ComponentBuilder getMessage(String name) {
-        return getYaml().contains(name)?News.nm.getMessageFactory().manufacture(getYaml().getString(name)):null;
+    public ComponentBuilder getMessage(String name, OfflinePlayer p) {
+        return getYaml().contains(name)?News.nm.getMessageFactory().manufacture(getYaml().getString(name),p):null;
     }
 }

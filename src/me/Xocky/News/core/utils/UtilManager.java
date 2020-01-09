@@ -15,7 +15,6 @@ public class UtilManager {
     }
     public void initialize() {
         cm.initialize();
-        cc.initialize();
     }
     public ConfigManager getConfigManager() {
         return this.cm;

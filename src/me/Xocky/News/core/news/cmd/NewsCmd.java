@@ -12,7 +12,7 @@ import java.util.List;
 public class NewsCmd extends Command {
 
     public NewsCmd(List<ISubCommand> subCommands) {
-        super( "News+.news","news",subCommands);
+        super( "News+.news","news",subCommands,"Opens the news GUI");
     }
     public void run(Player p, String[] args) {
         if (args == null || args.length ==0) {
@@ -20,9 +20,9 @@ public class NewsCmd extends Command {
             return;
         }
         if (!News.nm.getNewsConfig().getYaml().contains("news."+args[0])) {
-            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-such-news-page").create());
+            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-such-news-page",p).create());
             return;
         }
-        News.nm.getNewsConfig().getBook("news." +args[0]).openBook(p);
+        News.nm.getNewsConfig().getBook("news." +args[0],p).openBook();
     }
 }

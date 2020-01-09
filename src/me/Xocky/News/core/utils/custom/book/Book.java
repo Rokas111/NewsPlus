@@ -19,8 +19,10 @@ import java.util.List;
 
 public class Book {
     private ItemStack item;
-    public Book() {
+    private Player p;
+    public Book(Player p) {
         this.item = new ItemStack(Material.WRITTEN_BOOK);
+        this.p = p;
     }
     public Book(String author, String title, List<String[]> pages) {
         this.item = new ItemStack(Material.WRITTEN_BOOK);
@@ -45,7 +47,7 @@ public class Book {
         ComponentBuilder text = new ComponentBuilder("");
         for (String line : lines) {
 
-            text.append(new Message(line).translateAllJSON().create());
+            text.append(new Message(line).translateAllJSON(p).create());
             text.append("\n");
         }
         try {
@@ -57,7 +59,7 @@ public class Book {
         }
         item.setItemMeta(meta);
     }
-    public void openBook(Player p) {
+    public void openBook() {
         int slot = p.getInventory().getHeldItemSlot();
         ItemStack old = p.getInventory().getItem(slot);
         p.getInventory().setItem(slot, item);

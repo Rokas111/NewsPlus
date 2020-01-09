@@ -1,10 +1,12 @@
 package me.Xocky.News.core.utils.custom.message;
 
 import me.Xocky.News.core.News;
+import me.Xocky.News.core.hook.hooks.PlaceHolderAPI;
 import me.Xocky.News.core.utils.legacy.Version;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 
 
 public class Message {
@@ -40,8 +42,12 @@ public class Message {
         cb.append(TextComponent.fromLegacyText(message));
         return cb;
     }
-    public ComponentBuilder translateAllJSON() {
+    public String translatePAPI(OfflinePlayer p) {
+        return ((PlaceHolderAPI)News.hm.getHookByName("PlaceholderAPI")).translatePlaceHolders(message,p);
+    }
+    public ComponentBuilder translateAllJSON(OfflinePlayer p) {
         message = translate();
+        message = translatePAPI(p);
         return translateJSON();
     }
 

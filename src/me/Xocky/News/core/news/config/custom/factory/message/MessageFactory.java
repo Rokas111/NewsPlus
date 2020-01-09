@@ -9,9 +9,9 @@ public class MessageFactory {
     public MessageFactory() {
 
     }
-    public ComponentBuilder manufacture(String name) {
+    public ComponentBuilder manufacture(String name,OfflinePlayer p) {
         if (News.nm.getMessageConfig().getYaml().contains(name)) {
-            return new Message(News.nm.getMessageConfig().getYaml().getString(name)).translateAllJSON();
+            return new Message(News.nm.getMessageConfig().getYaml().getString(name)).translateAllJSON(p);
         }
         return new ComponentBuilder("");
     }

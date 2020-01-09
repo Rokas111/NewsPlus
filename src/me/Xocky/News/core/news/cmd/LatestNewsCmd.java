@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class LatestNewsCmd extends Command {
     public LatestNewsCmd() {
-        super( "News+.latestnews","latestnews");
+        super( "News+.latestnews","latestnews","Opens the latest news page");
     }
     public void run(Player p, String[] args) {
         News.nm.openLatest(p);

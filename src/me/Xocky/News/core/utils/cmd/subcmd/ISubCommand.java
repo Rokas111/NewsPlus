@@ -6,4 +6,5 @@ public interface ISubCommand {
     public abstract String getName();
     public abstract void run(Player p, String[] args);
     public abstract String getPermission();
+    public abstract String getDescription();
 }

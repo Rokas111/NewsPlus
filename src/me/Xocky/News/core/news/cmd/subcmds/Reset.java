@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 
 public class Reset extends SubCommand {
     public Reset() {
-        super("reset","News+.news.reset");
+        super("reset","News+.news.reset", "Resets all News+ configs");
     }
     public void run(Player p, String[] args) {
         News.um.getConfigManager().resetAllConfigs();
-        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-reset-configs").create());
+        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-reset-configs",p).create());
     }
 }

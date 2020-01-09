@@ -9,5 +9,6 @@ public abstract interface ICommand {
     public abstract String getName();
     public abstract void run(Player p, String[] args);
     public abstract String getPermission();
+    public abstract String getDescription();
     public abstract List<ISubCommand> getSubCommands();
 }

@@ -4,9 +4,7 @@ import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
-import me.Xocky.News.core.news.cmd.subcmds.ClearPlayers;
-import me.Xocky.News.core.news.cmd.subcmds.Reload;
-import me.Xocky.News.core.news.cmd.subcmds.Reset;
+import me.Xocky.News.core.news.cmd.subcmds.*;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.configs.*;
 import me.Xocky.News.core.news.config.custom.configs.defaults.*;
@@ -152,8 +150,8 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset())),"news");
-        News.um.getCommandManager().registerCommand(new LatestNewsCmd(),"latestnews");
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new LatestNews())));
+        News.um.getCommandManager().registerCommand(new LatestNewsCmd());
     }
 
     public NewsPage getNewsPage(Player p) {
@@ -187,7 +185,7 @@ public class NewsManager implements Listener {
                 if (item.getNBTString("newsitem") != null) {
                     p.closeInventory();
                     if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".book")) {
-                        nc.getBook("news." + item.getNBTString("newsitem") + ".book").openBook(p);
+                        nc.getBook("news." + item.getNBTString("newsitem") + ".book",p).openBook();
                         return;
                     }
                     if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".gui")) {
@@ -223,7 +221,7 @@ public class NewsManager implements Listener {
     public void openLatest(Player p) {
         if (!nc.getYaml().getConfigurationSection("news").getKeys(false).isEmpty()) {
             String newest = (String) nc.getYaml().getConfigurationSection("news").getKeys(false).toArray()[0];
-            nc.getBook("news."+newest+".book").openBook(p);
+            nc.getBook("news."+newest+".book",p).openBook();
         }
     }
 }

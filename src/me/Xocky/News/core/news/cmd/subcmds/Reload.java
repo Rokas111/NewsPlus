@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 
 public class Reload extends SubCommand {
     public Reload() {
-        super("reload","News+.news.reload");
+        super("reload","News+.news.reload", "Reloads all News+ configs");
     }
     public void run(Player p, String[] args) {
         News.um.getConfigManager().reloadAllConfigs();
-        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-config-reload").create());
+        p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("successful-config-reload",p).create());
     }
 }
