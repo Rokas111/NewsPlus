@@ -2,7 +2,6 @@ package me.Xocky.News.core.news;
 
 import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
-import me.Xocky.News.core.news.cmd.LatestNewsCmd;
 import me.Xocky.News.core.news.cmd.NewsCmd;
 import me.Xocky.News.core.news.cmd.subcmds.*;
 import me.Xocky.News.core.news.config.NewsConfig;
@@ -151,7 +150,6 @@ public class NewsManager implements Listener {
     }
     private void registerCommands() {
         News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new LatestNews())));
-        News.um.getCommandManager().registerCommand(new LatestNewsCmd());
     }
 
     public NewsPage getNewsPage(Player p) {

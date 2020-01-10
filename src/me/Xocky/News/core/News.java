@@ -70,10 +70,13 @@ public class News extends JavaPlugin {
         List<String> suggestions = new ArrayList<>();
         List<String> completions = new ArrayList<>();
         um.getCommandManager().getCommands().forEach(cmd -> {
-            completions.add(cmd.getName());
-            cmd.getSubCommands().forEach(subcmd -> {
-                completions.add(cmd.getName() + " " + subcmd.getName());
-            });
+            if (command.getName().equals(cmd.getName())) {
+                cmd.getSubCommands().forEach(subcmd -> {
+                    completions.add(subcmd.getName());
+                });
+            } else {
+                completions.add(cmd.getName());
+            }
         });
         StringUtil.copyPartialMatches(args[0], completions, suggestions);
         Collections.sort(suggestions);

@@ -52,7 +52,6 @@ public class MySQL {
             hikari = new HikariDataSource(jdbcConfig);
             connected = true;
         } catch (Exception e) {
-            e.printStackTrace();
             connected = false;
         }
     }
