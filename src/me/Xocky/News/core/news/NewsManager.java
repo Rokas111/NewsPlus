@@ -3,7 +3,15 @@ package me.Xocky.News.core.news;
 import com.google.common.collect.Lists;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.NewsCmd;
-import me.Xocky.News.core.news.cmd.subcmds.*;
+import me.Xocky.News.core.news.cmd.subcmds.config.Reload;
+import me.Xocky.News.core.news.cmd.subcmds.config.Reset;
+import me.Xocky.News.core.news.cmd.subcmds.custom.Add;
+import me.Xocky.News.core.news.cmd.subcmds.custom.AddBook;
+import me.Xocky.News.core.news.cmd.subcmds.custom.Edit;
+import me.Xocky.News.core.news.cmd.subcmds.custom.Remove;
+import me.Xocky.News.core.news.cmd.subcmds.misc.Help;
+import me.Xocky.News.core.news.cmd.subcmds.misc.LatestNews;
+import me.Xocky.News.core.news.cmd.subcmds.playerlist.ClearPlayers;
 import me.Xocky.News.core.news.config.NewsConfig;
 import me.Xocky.News.core.news.config.custom.configs.*;
 import me.Xocky.News.core.news.config.custom.configs.defaults.*;
@@ -83,7 +91,8 @@ public class NewsManager implements Listener {
     }
     private void registerPlayerList() {
         registerPlayerListConfig();
-        if (nc.getLatestNewsOneTimeOnlyUseMySQL()) {
+        if (nc.getLatestNewsOneTimeOnly()&&nc.getLatestNewsOneTimeOnlyUseMySQL()) {
+            News.mySQL.setupMysql();
             if (!News.mySQL.isConnected()) {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.RED +"Couldn't connect to MySQL");
                 return;
@@ -149,7 +158,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new LatestNews())));
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new Edit(),new Remove(),new LatestNews())));
     }
 
     public NewsPage getNewsPage(Player p) {

@@ -5,6 +5,7 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.config.custom.configs.defaults.Books;
 import me.Xocky.News.core.utils.config.Config;
 import me.Xocky.News.core.utils.config.Section;
+import me.Xocky.News.core.utils.custom.book.Book;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class NewsBookConfig extends Config {
             setupKeys();
         }
     }
-    public void addDefault( List<String[]> pages, String name) {
+    public void add( List<String[]> pages, String name) {
         if (!pages.isEmpty()) {
             int p = 1;
             for (String[] page : pages) {
@@ -39,7 +40,10 @@ public class NewsBookConfig extends Config {
         }
         save();
     }
+    public void addBook(Book book,String name) {
+        add(book.getPages(),name);
+    }
     public void setupKeys() {
-        defaults.keySet().forEach(book -> addDefault(book,defaults.get(book)));
+        defaults.keySet().forEach(book -> add(book,defaults.get(book)));
     }
 }

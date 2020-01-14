@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class News extends JavaPlugin {
                     p.spigot().sendMessage(nm.getNewsConfig().getMessage("insufficient-permission-sub-command",p).create());
                     return true;
                 }
-                um.getCommandManager().getSubCommand(cmd,args[0]).run(p,args);
+                um.getCommandManager().getSubCommand(cmd,args[0]).run(p, Arrays.asList(args).subList(1,args.length).toArray(new String[0]));
                 return true;
             }
             if (!p.hasPermission(cmd.getPermission())) {

@@ -19,7 +19,7 @@ public class NewsCmd extends Command {
             new NewsPage(News.nm.getNewsConfig().getGUI("main_gui"), Lists.newArrayList(News.nm.getNewsConfig().getYaml().getConfigurationSection("news").getKeys(false)),p).open();
             return;
         }
-        if (!News.nm.getNewsConfig().getYaml().contains("news."+args[0])) {
+        if (!News.nm.getNewsConfig().containsNewsConfig(args[0])) {
             p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-such-news-page",p).create());
             return;
         }

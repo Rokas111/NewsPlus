@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
@@ -32,6 +33,9 @@ public class Book {
             addPage(page);
         }
     }
+    public Book(ItemStack book) {
+        this.item = book;
+    }
     public void setAuthor(String author) {
         BookMeta meta = (BookMeta) item.getItemMeta();
         meta.setAuthor(author);
@@ -41,6 +45,12 @@ public class Book {
         BookMeta meta = (BookMeta) item.getItemMeta();
         meta.setTitle(title);
         item.setItemMeta(meta);
+    }
+    public List<String[]> getPages() {
+        List<String[]> pages = new ArrayList<>();
+        BookMeta meta = (BookMeta) item.getItemMeta();
+        meta.getPages().forEach(page-> pages.add(page.split("\n")));
+        return pages;
     }
     public void addPage(String... lines) {
         BookMeta meta = (BookMeta) item.getItemMeta();

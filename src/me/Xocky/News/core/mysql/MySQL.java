@@ -25,7 +25,6 @@ public class MySQL {
     public void initialize() {
         registerConfigs();
         setupDatabase();
-        setupMysql();
     }
     private void registerConfigs() {
         News.um.getConfigManager().registerConfig(new MySQLConfig());
@@ -38,7 +37,7 @@ public class MySQL {
         this.password = config.getPassword();
         this.database = config.getDatabase();
     }
-    private void setupMysql() {
+    public void setupMysql() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             HikariConfig jdbcConfig = new HikariConfig();
