@@ -33,12 +33,15 @@ public class NewsConfig extends Config {
         getYaml().set("successful_edit_news_page", "successful_edit_news_page_message");
         getYaml().set("successful_remove_news_page", "successful_remove_news_page_message");
         getYaml().set("successful_add_book", "successful_add_book_message");
+        getYaml().set("successful_add_item", "successful_add_item_message");
         getYaml().set("wrong_usage_remove", "wrong_usage_remove_message");
         getYaml().set("wrong_usage_add_book", "wrong_usage_add_book_message");
+        getYaml().set("wrong_usage_add_item", "wrong_usage_add_item_message");
         getYaml().set("wrong_usage_add", "wrong_usage_add_message");
         getYaml().set("wrong_usage_edit", "wrong_usage_edit_message");
         getYaml().set("no_such_page", "no_such_page_message");
         getYaml().set("not_a_book", "not_a_book_message");
+        getYaml().set("not_an_item", "not_an_item_message");
         getYaml().set("no_such_item", "no_such_item_message");
         getYaml().set("error-player-list-disabled", "error_player_list_disabled_message");
         getYaml().set("insufficient-permission-command", "insufficient_permission_command");

@@ -1,4 +1,4 @@
-package me.Xocky.News.core.news.cmd.subcmds.custom;
+package me.Xocky.News.core.news.cmd.subcmds.custom.newspage;
 
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.cmd.subcmd.SubCommand;

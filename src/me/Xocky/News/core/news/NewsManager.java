@@ -5,10 +5,11 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.NewsCmd;
 import me.Xocky.News.core.news.cmd.subcmds.config.Reload;
 import me.Xocky.News.core.news.cmd.subcmds.config.Reset;
-import me.Xocky.News.core.news.cmd.subcmds.custom.Add;
-import me.Xocky.News.core.news.cmd.subcmds.custom.AddBook;
-import me.Xocky.News.core.news.cmd.subcmds.custom.Edit;
-import me.Xocky.News.core.news.cmd.subcmds.custom.Remove;
+import me.Xocky.News.core.news.cmd.subcmds.custom.item.AddItem;
+import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Add;
+import me.Xocky.News.core.news.cmd.subcmds.custom.book.AddBook;
+import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Edit;
+import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Remove;
 import me.Xocky.News.core.news.cmd.subcmds.misc.Help;
 import me.Xocky.News.core.news.cmd.subcmds.misc.LatestNews;
 import me.Xocky.News.core.news.cmd.subcmds.playerlist.ClearPlayers;
@@ -158,7 +159,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new Edit(),new Remove(),new LatestNews())));
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new Edit(),new Remove(),new AddItem(),new LatestNews())));
     }
 
     public NewsPage getNewsPage(Player p) {

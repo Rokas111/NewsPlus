@@ -1,6 +1,6 @@
 name: NewsPlus
 main: me.Xocky.News.core.News
-version: 3.0.0
+version: 3.0.1
 author: Xocky
 softdepend: [PlaceholderAPI]
 commands:
