@@ -2,7 +2,9 @@ package me.Xocky.News.core.news.config.custom.factory.book;
 
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.custom.book.Book;
+import me.Xocky.News.core.utils.custom.item.BItem;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class BookFactory {
     public BookFactory() {

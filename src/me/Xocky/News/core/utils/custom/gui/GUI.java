@@ -12,11 +12,19 @@ import java.util.List;
 public class GUI {
     private Inventory inv;
     private String title;
-    private HashMap<Integer,String> slottags;
+    private HashMap<Integer,String> slotTags;
+    private HashMap<Integer,String> commandTags;
     public GUI(String title,int size) {
         this.title = title;
-        this.slottags = new HashMap<>();
+        this.slotTags = new HashMap<>();
+        this.commandTags = new HashMap<>();
         inv = Bukkit.createInventory(null,size, title);
+    }
+    public GUI(Inventory inv) {
+        this.title = inv.getTitle();
+        this.slotTags = new HashMap<>();
+        this.commandTags = new HashMap<>();
+        this.inv = inv;
     }
     public int getSize() {
         return inv.getSize();
@@ -45,7 +53,11 @@ public class GUI {
         return this;
     }
     public GUI setSlotTag(int slot,String tag) {
-        if (!slottags.containsKey(slot)) {slottags.put(slot,tag);}
+        if (!slotTags.containsKey(slot)) {slotTags.put(slot,tag);}
+        return this;
+    }
+    public GUI setCommandTag(int slot,String command) {
+        if (!commandTags.containsKey(slot)) {commandTags.put(slot,command);}
         return this;
     }
     public GUI setSlotTags(int start,int end,String tag) {
@@ -56,14 +68,17 @@ public class GUI {
     }
     public List<Integer> getSlotTags(String tag) {
         List<Integer> slots = new ArrayList<>();
-        if (slottags.isEmpty()) {
+        if (slotTags.isEmpty()) {
             return slots;
         }
-        slottags.keySet().stream().filter(slot -> slottags.get(slot).equals(tag)).forEachOrdered(slots::add);
+        slotTags.keySet().stream().filter(slot -> slotTags.get(slot).equals(tag)).forEachOrdered(slots::add);
         return slots;
     }
     public HashMap<Integer,String> getSlotTags() {
-        return slottags;
+        return slotTags;
+    }
+    public HashMap<Integer,String> getCommandTags() {
+        return commandTags;
     }
     public Inventory getInventory() {
         return inv;

@@ -5,7 +5,7 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.custom.gui.GUI;
 import me.Xocky.News.core.utils.custom.item.BItem;
 import me.Xocky.News.core.utils.pages.GUIMultiPage;
-import org.bukkit.ChatColor;
+import me.Xocky.News.core.utils.pages.interfaces.IGUIPage;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class NewsPage extends GUIMultiPage {
     public NewsPage(GUI g, List<String> news,Player p) {
-        super(p,g,news);
+        super(p,g,news,true);
     }
     public void open() {
         if (!getGUI().getSlotTags("newsslot").isEmpty()) {
@@ -30,6 +30,30 @@ public class NewsPage extends GUIMultiPage {
             }
         }
         getPlayer().openInventory(getGUI().getInventory());
-        News.nm.addNewsPage(getPlayer(),this);
+        News.nm.addPage(getPlayer(),this);
+    }
+    public void interact(int slot, BItem item) {
+        if (item.getNBTString("newsitem") != null) {
+            getPlayer().closeInventory();
+            if (News.nm.getNewsConfig().getYaml().contains("news." + item.getNBTString("newsitem") + ".book")) {
+                News.nm.getNewsConfig().getBook("news." + item.getNBTString("newsitem") + ".book",getPlayer()).openBook();
+                return;
+            }
+            if (News.nm.getNewsConfig().getYaml().contains("news." + item.getNBTString("newsitem") + ".gui")) {
+                IGUIPage page = News.nm.getPage(getPlayer());
+                getPlayer().openInventory(News.nm.getNewsConfig().getGUI("news." + item.getNBTString("newsitem") + ".gui").getInventory());
+                News.nm.addPage(getPlayer(),page);
+            }
+            return;
+        }
+        if (item.hasSignature()) {
+            if (item.getNBTString("signature").equals("nextpage")) {
+                nextPage();
+            } else if (item.getNBTString("signature").equals("backpage")) {
+                previousPage();
+            }
+        }
+    }
+    public void close(){
     }
 }

@@ -13,11 +13,13 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
     private Player p;
     private List<String> elements;
     private GUI g;
-    public GUIMultiPage(Player p, GUI g, List<String> elements) {
+    private boolean cancel;
+    public GUIMultiPage(Player p, GUI g, List<String> elements,boolean cancel) {
         this.page = 1;
         this.p =p;
         this.g =g;
         this.elements = elements;
+        this.cancel = cancel;
     }
     public void nextPage() {
         if (!(this.page <  (elements.size()>g.getSlotTags("newsslot").size()?(Integer.parseInt(Double.toString(elements.size() / g.getSlotTags("newsslot").size()).split("\\.")[0])  +1):1))) {
@@ -52,5 +54,8 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
     }
     public List<Integer> getElementSlots() {
         return g.getSlotTags("elementslot");
+    }
+    public boolean cancelClick() {
+        return this.cancel;
     }
 }

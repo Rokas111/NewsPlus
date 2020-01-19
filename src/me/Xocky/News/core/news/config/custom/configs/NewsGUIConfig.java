@@ -40,6 +40,11 @@ public class NewsGUIConfig extends Config {
                 getYaml().set(name+".slottags."+slot,g.getSlotTags().get(slot));
             }
         }
+        if (!g.getCommandTags().isEmpty()) {
+            for (Integer slot : g.getCommandTags().keySet()) {
+                getYaml().set(name+".commandtags."+slot,g.getCommandTags().get(slot));
+            }
+        }
         save();
     }
     public void setupKeys() {

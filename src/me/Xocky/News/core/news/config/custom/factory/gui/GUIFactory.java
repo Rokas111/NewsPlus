@@ -20,6 +20,11 @@ public class GUIFactory {
                     g.setSlotTag(Integer.parseInt(slot), News.nm.getGUIConfig().getYaml().getString(name + ".slottags." + slot));
                 }
             }
+            if (News.nm.getGUIConfig().getYaml().contains(name + ".commandtags") && !News.nm.getGUIConfig().getYaml().getConfigurationSection(name + ".commandtags").getKeys(false).isEmpty()) {
+                for (String slot : News.nm.getGUIConfig().getYaml().getConfigurationSection(name + ".commandtags").getKeys(false)) {
+                    g.setCommandTag(Integer.parseInt(slot), News.nm.getGUIConfig().getYaml().getString(name + ".commandtags." + slot));
+                }
+            }
             return g;
         }
         return null;

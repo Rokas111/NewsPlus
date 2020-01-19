@@ -5,7 +5,10 @@ import me.Xocky.News.core.News;
 import me.Xocky.News.core.news.cmd.NewsCmd;
 import me.Xocky.News.core.news.cmd.subcmds.config.Reload;
 import me.Xocky.News.core.news.cmd.subcmds.config.Reset;
+import me.Xocky.News.core.news.cmd.subcmds.custom.book.BooksCmd;
+import me.Xocky.News.core.news.cmd.subcmds.custom.gui.AddGUI;
 import me.Xocky.News.core.news.cmd.subcmds.custom.item.AddItem;
+import me.Xocky.News.core.news.cmd.subcmds.custom.item.GetItem;
 import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Add;
 import me.Xocky.News.core.news.cmd.subcmds.custom.book.AddBook;
 import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Edit;
@@ -24,7 +27,7 @@ import me.Xocky.News.core.news.data.PlayerList;
 import me.Xocky.News.core.utils.custom.item.BItem;
 import me.Xocky.News.core.news.config.custom.factory.item.ItemFactory;
 import me.Xocky.News.core.news.config.custom.factory.json.JSONFactory;
-import me.Xocky.News.core.news.pages.NewsPage;
+import me.Xocky.News.core.utils.pages.interfaces.IGUIPage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,7 +46,7 @@ public class NewsManager implements Listener {
     private NewsConfig nc;
     private ConfigPlayerList configList;
     private PlayerList playerList;
-    private HashMap<Player, NewsPage> newsPages;
+    private HashMap<Player, IGUIPage> pages;
     private NewsBookConfig bookConfig;
     private NewsItemConfig itemConfig;
     private NewsGUIConfig guiConfig;
@@ -56,7 +59,7 @@ public class NewsManager implements Listener {
     private MessageFactory messageFactory;
     public NewsManager(Plugin pl) {
         this.pl = pl;
-        this.newsPages = new HashMap<>();
+        this.pages = new HashMap<>();
         this.guiFactory = new GUIFactory();
         this.itemFactory = new ItemFactory();
         this.jsonFactory = new JSONFactory();
@@ -159,11 +162,11 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new Edit(),new Remove(),new AddItem(),new LatestNews())));
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new AddBook(),new Edit(),new Remove(),new AddItem(),new GetItem(),new BooksCmd(),new AddGUI(),new LatestNews())));
     }
 
-    public NewsPage getNewsPage(Player p) {
-        return newsPages.get(p);
+    public IGUIPage getPage(Player p) {
+        return pages.get(p);
     }
     public GUIFactory getGUIFactory() {
         return this.guiFactory;
@@ -180,43 +183,22 @@ public class NewsManager implements Listener {
     public MessageFactory getMessageFactory() {
         return this.messageFactory;
     }
-    public void addNewsPage(Player p, NewsPage page) {
-        newsPages.put(p,page);
+    public void addPage(Player p, IGUIPage page) {
+        pages.put(p,page);
     }
     @EventHandler
     public void click(InventoryClickEvent e) {
-        if (newsPages.containsKey(e.getWhoClicked())) {
-            e.setCancelled(true);
-            if ((e.getCurrentItem()!= null&& e.getCurrentItem().getType() != Material.AIR)) {
-                BItem item = new BItem(e.getCurrentItem());
-                Player p = (Player) e.getWhoClicked();
-                if (item.getNBTString("newsitem") != null) {
-                    p.closeInventory();
-                    if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".book")) {
-                        nc.getBook("news." + item.getNBTString("newsitem") + ".book",p).openBook();
-                        return;
-                    }
-                    if (nc.getYaml().contains("news." + item.getNBTString("newsitem") + ".gui")) {
-                        NewsPage page = newsPages.get(p);
-                        p.openInventory(nc.getGUI("news." + item.getNBTString("newsitem") + ".gui").getInventory());
-                        addNewsPage(p,page);
-                    }
-                    return;
-                }
-                if (item.hasSignature()) {
-                    if (item.getNBTString("signature").equals("nextpage")) {
-                        getNewsPage(p).nextPage();
-                    } else if (item.getNBTString("signature").equals("backpage")) {
-                        getNewsPage(p).previousPage();
-                    }
-                }
-            }
+        Player p = (Player) e.getWhoClicked();
+        if (pages.containsKey(p) && e.getCurrentItem()!= null&& e.getCurrentItem().getType() != Material.AIR) {
+            BItem item = new BItem(e.getCurrentItem());
+            pages.get(p).interact(e.getSlot(),item);
         }
     }
     @EventHandler
     public void close(InventoryCloseEvent e) {
-        if (newsPages.containsKey(e.getPlayer())) {
-            newsPages.remove(e.getPlayer());
+        if (pages.containsKey(e.getPlayer())) {
+            pages.get(e.getPlayer()).close();
+            pages.remove(e.getPlayer());
         }
     }
     @EventHandler

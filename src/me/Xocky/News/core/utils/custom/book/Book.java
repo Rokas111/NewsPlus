@@ -3,6 +3,7 @@ package me.Xocky.News.core.utils.custom.book;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import me.Xocky.News.core.News;
+import me.Xocky.News.core.utils.custom.item.BItem;
 import me.Xocky.News.core.utils.custom.message.Message;
 import me.Xocky.News.core.utils.legacy.Version;
 import me.Xocky.News.core.utils.nbt.Classes;
@@ -97,5 +98,8 @@ public class Book {
             e.printStackTrace();
         }
         p.getInventory().setItem(slot, old);
+    }
+    public BItem getItem() {
+        return new BItem(this.item);
     }
 }
