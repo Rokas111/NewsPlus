@@ -21,8 +21,8 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
         this.elements = elements;
         this.cancel = cancel;
     }
-    public void nextPage() {
-        if (!(this.page <  (elements.size()>g.getSlotTags("newsslot").size()?(Integer.parseInt(Double.toString(elements.size() / g.getSlotTags("newsslot").size()).split("\\.")[0])  +1):1))) {
+    public void nextPage(List<Integer> slots) {
+        if (!(this.page <  (elements.size()>slots.size()?(Integer.parseInt(Double.toString(elements.size() / slots.size()).split("\\.")[0])  +1):1))) {
             p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-next-page",p).create());
             return;
         }

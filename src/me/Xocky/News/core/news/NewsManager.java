@@ -9,6 +9,7 @@ import me.Xocky.News.core.news.cmd.subcmds.custom.book.BooksCmd;
 import me.Xocky.News.core.news.cmd.subcmds.custom.gui.AddGUI;
 import me.Xocky.News.core.news.cmd.subcmds.custom.item.AddItem;
 import me.Xocky.News.core.news.cmd.subcmds.custom.item.GetItem;
+import me.Xocky.News.core.news.cmd.subcmds.custom.item.ItemsCmd;
 import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Add;
 import me.Xocky.News.core.news.cmd.subcmds.custom.book.AddBook;
 import me.Xocky.News.core.news.cmd.subcmds.custom.newspage.Edit;
@@ -162,7 +163,7 @@ public class NewsManager implements Listener {
         return this.messageConfig;
     }
     private void registerCommands() {
-        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new AddBook(),new Edit(),new Remove(),new AddItem(),new GetItem(),new BooksCmd(),new AddGUI(),new LatestNews())));
+        News.um.getCommandManager().registerCommand(new NewsCmd(Lists.newArrayList(new Reload(),new ClearPlayers(),new Reset(),new Help(),new Add(),new AddBook(),new AddBook(),new Edit(),new Remove(),new AddItem(),new GetItem(),new BooksCmd(),new ItemsCmd(),new AddGUI(),new LatestNews())));
     }
 
     public IGUIPage getPage(Player p) {
@@ -191,6 +192,9 @@ public class NewsManager implements Listener {
         Player p = (Player) e.getWhoClicked();
         if (pages.containsKey(p) && e.getCurrentItem()!= null&& e.getCurrentItem().getType() != Material.AIR) {
             BItem item = new BItem(e.getCurrentItem());
+            if (pages.get(p).cancelClick()) {
+                e.setCancelled(true);
+            }
             pages.get(p).interact(e.getSlot(),item);
         }
     }

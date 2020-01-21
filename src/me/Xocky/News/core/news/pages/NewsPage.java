@@ -48,7 +48,7 @@ public class NewsPage extends GUIMultiPage {
         }
         if (item.hasSignature()) {
             if (item.getNBTString("signature").equals("nextpage")) {
-                nextPage();
+                nextPage(getGUI().getSlotTags("newsslot"));
             } else if (item.getNBTString("signature").equals("backpage")) {
                 previousPage();
             }

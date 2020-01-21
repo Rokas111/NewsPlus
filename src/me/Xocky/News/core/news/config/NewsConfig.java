@@ -18,6 +18,7 @@ public class NewsConfig extends Config {
         getYaml().set("latest-news-one-time-only-use-mysql", false);
         getYaml().set("main_gui", "news_update");
         getYaml().set("book_gui", "books");
+        getYaml().set("item_gui", "items");
         getYaml().set("empty_news_slot_item", "empty_slot");
         getYaml().set("news.update1.item", "news_update");
         getYaml().set("news.update1.book", "update");
