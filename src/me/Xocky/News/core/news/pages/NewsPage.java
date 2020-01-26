@@ -19,9 +19,6 @@ public class NewsPage extends GUIMultiPage {
         if (!getGUI().getSlotTags("newsslot").isEmpty()) {
             List<Integer> newsslots = Lists.newArrayList(getGUI().getSlotTags("newsslot"));
             Collections.sort(newsslots);
-            for (Integer slot : newsslots) {
-                getGUI().setItem(slot, News.nm.getNewsConfig().getItem("empty_news_slot_item"));
-            }
             int perpagenews = newsslots.size();
             int ie = 0;
             for (int i = perpagenews*(getPage()-1);i<(perpagenews*getPage()>getElements().size()?getElements().size()-perpagenews*(getPage()-1):perpagenews*getPage());i++) {

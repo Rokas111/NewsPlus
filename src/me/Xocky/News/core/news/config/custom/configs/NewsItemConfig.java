@@ -8,7 +8,9 @@ import me.Xocky.News.core.utils.custom.item.BItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class NewsItemConfig extends Config {
         private HashMap<BItem,String> defaults;
@@ -53,6 +55,25 @@ public class NewsItemConfig extends Config {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        public List<ItemStack> getAllItems() {
+            List<ItemStack> items = new ArrayList<>();
+            if (!getYaml().getKeys(false).isEmpty()) {
+                getYaml().getKeys(false).forEach(key -> {
+                    items.add(News.nm.getItemFactory().manufacture(key));
+                });
+            }
+            return items;
+        }
+        public String getItem(ItemStack item) {
+            if (!getYaml().getKeys(false).isEmpty()) {
+                for (String key: getYaml().getKeys(false)) {
+                    if (News.nm.getItemFactory().manufacture(key).equals(item)) {
+                        return key;
+                    }
+                }
+            }
+            return null;
         }
         public void setupKeys() {
             defaults.keySet().forEach(item -> addDefault(item,defaults.get(item)));

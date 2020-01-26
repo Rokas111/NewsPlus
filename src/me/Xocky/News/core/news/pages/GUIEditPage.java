@@ -30,17 +30,21 @@ public class GUIEditPage extends GUIPage {
     private ItemStack addItem(ItemStack item) {
         BItem bitem = new BItem(item);
         if (item != null) {
-            String name = item.getType().toString();
-            int itemnumber = 0;
-            while (News.nm.getItemConfig().getYaml().contains(name)) {
-                if (!News.nm.getItemConfig().getYaml().contains(name)) {
-                    break;
+            if (!News.nm.getItemConfig().getAllItems().contains(item)) {
+                String name = item.getType().toString();
+                int itemnumber = 0;
+                while (News.nm.getItemConfig().getYaml().contains(name)) {
+                    if (!News.nm.getItemConfig().getYaml().contains(name)) {
+                        break;
+                    }
+                    itemnumber++;
+                    name = name + "_" + itemnumber;
                 }
-                itemnumber++;
-                name = name + "_" + itemnumber;
+                News.nm.getItemConfig().addDefault(bitem, name);
+                bitem.setNBTString("itemname", name);
+            } else {
+                bitem.setNBTString("itemname", News.nm.getItemConfig().getItem(item));
             }
-            News.nm.getItemConfig().addDefault(bitem, name);
-            bitem.setNBTString("itemname", name);
         }
         return bitem.build();
     }

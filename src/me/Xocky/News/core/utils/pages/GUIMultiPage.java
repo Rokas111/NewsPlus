@@ -3,6 +3,7 @@ package me.Xocky.News.core.utils.pages;
 import me.Xocky.News.core.News;
 import me.Xocky.News.core.utils.custom.gui.GUI;
 import me.Xocky.News.core.utils.pages.interfaces.IGUIMultiPage;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,7 +24,7 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
     }
     public void nextPage(List<Integer> slots) {
         if (!(this.page <  (elements.size()>slots.size()?(Integer.parseInt(Double.toString(elements.size() / slots.size()).split("\\.")[0])  +1):1))) {
-            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-next-page",p).create());
+            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no_next_page",p).create());
             return;
         }
         page++;
@@ -31,7 +32,7 @@ public abstract class GUIMultiPage implements IGUIMultiPage {
     }
     public void previousPage() {
         if (this.page <= 1) {
-            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no-previous-page",p).create());
+            p.spigot().sendMessage(News.nm.getNewsConfig().getMessage("no_previous_page",p).create());
             return;
         }
         page--;

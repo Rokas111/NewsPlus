@@ -114,7 +114,7 @@ public class BItem {
         return item.getItemMeta().hasLore();
     }
     public boolean isEnchanted() {
-        return item.getItemMeta().hasEnchants();
+        return hasMeta()&&item.getItemMeta().hasEnchants();
     }
     public ItemStack build() {
         return this.item;

@@ -8,6 +8,7 @@ import org.bukkit.Material;
 
 public enum Items {
     NONE_ITEM(new SinceVersion(Version.MC1_7_R4,"STAINED_GLASS_PANE.1.7. "), new SinceVersion(Version.MC1_13_R1,"LEGACY_STAINED_GLASS_PANE.1.7. " )),
+    AIR_ITEM(new BItem(Material.valueOf("AIR"))),
     NEXT_PAGE_ITEM(new BItem(Material.valueOf("ARROW")).setDisplayName("&aNext Page").addLineLore("&7Click to view the next page").setSignature("nextpage")),
     PREVIOUS_PAGE_ITEM(new BItem(Material.valueOf("ARROW")).setDisplayName("&aPrevious Page").addLineLore("&7Click to view the previous page").setSignature("backpage")),
     EMPTY_SLOT(new SinceVersion(Version.MC1_7_R4,"IRON_FENCE.1.0.&cEmpty Slot"), new SinceVersion(Version.MC1_13_R1,"LEGACY_IRON_FENCE.1.0.&cEmpty Slot")),

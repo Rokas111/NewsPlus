@@ -19,9 +19,6 @@ public class BookPage extends GUIMultiPage {
         if (!getGUI().getSlotTags("bookslot").isEmpty()) {
             List<Integer> bookslots = Lists.newArrayList(getGUI().getSlotTags("bookslot"));
             Collections.sort(bookslots);
-            for (Integer slot : bookslots) {
-                getGUI().setItem(slot, News.nm.getItemFactory().manufacture("none_item"));
-            }
             int perpagenews = bookslots.size();
             int ie = 0;
             for (int i = perpagenews*(getPage()-1);i<(perpagenews*getPage()>getElements().size()?getElements().size()-perpagenews*(getPage()-1):perpagenews*getPage());i++) {

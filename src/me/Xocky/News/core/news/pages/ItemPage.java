@@ -20,9 +20,6 @@ public class ItemPage extends GUIMultiPage {
         if (!getGUI().getSlotTags("itemslot").isEmpty()) {
             List<Integer> itemslots = Lists.newArrayList(getGUI().getSlotTags("itemslot"));
             Collections.sort(itemslots);
-            for (Integer slot : itemslots) {
-                getGUI().setItem(slot, new ItemStack(Material.AIR));
-            }
             int perpagenews = itemslots.size();
             int ie = 0;
             for (int i = perpagenews*(getPage()-1);i<(perpagenews*getPage()>getElements().size()?getElements().size()-perpagenews*(getPage()-1):perpagenews*getPage());i++) {
